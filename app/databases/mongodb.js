@@ -12,7 +12,7 @@ module.exports = function (app) {
       if (err) console.log("connect err");
 
       console.log("connected to database");
-      const dbo = client.db("mydb");
+      const dbo = client.db(app.config.databases.mongodb.db);
       app.locals = {};
       app.locals.mongodb = dbo;
     }

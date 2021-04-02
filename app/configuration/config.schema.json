@@ -11,9 +11,12 @@
       "properties": {
         "mongodb": {
           "type": "object",
-          "required": ["url"],
+          "required": ["url", "db"],
           "properties": {
             "url": {
+              "type": "string"
+            },
+            "db": {
               "type": "string"
             }
           }
