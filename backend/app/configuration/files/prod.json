@@ -1,0 +1,9 @@
+{
+  "port": 8080,
+  "databases": {
+    "mongodb": {
+      "url": "mongodb://root:rootpassword@mongodb:27017",
+      "db": "mydb"
+    }
+  }
+}

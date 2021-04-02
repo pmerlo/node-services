@@ -7,6 +7,8 @@ const loadConfig = function () {
   switch (process.env.NODE_ENV) {
     case "dev":
       return require("./files/dev.json");
+    case "prod":
+      return require("./files/prod.json");
     default:
       throw Error(`invalid environment '${process.env.NODE_ENV}'`);
   }
