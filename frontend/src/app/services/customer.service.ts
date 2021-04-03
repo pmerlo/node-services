@@ -6,16 +6,6 @@ import { Observable } from 'rxjs';
 import { Customer } from '../models/customer';
 
 const BASE_URL = 'http://localhost:8080/customers/';
-const CUSTOMERS: Customer[] = [
-  {
-    name: 'Sara',
-    age: 31,
-  },
-  {
-    name: 'Pedro',
-    age: 30,
-  },
-];
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +15,9 @@ export class CustomerService {
 
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(BASE_URL);
+  }
+
+  add(customer: Customer): Observable<Customer> {
+    return this.http.post<Customer>(BASE_URL, customer);
   }
 }
