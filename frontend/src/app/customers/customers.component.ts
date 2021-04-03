@@ -1,17 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Customer } from '../models/customer';
+import { CustomerService } from '../services/customer.service';
 
-const CUSTOMERS: Customer[] = [
-  {
-    name: 'Sara',
-    age: 31
-  },
-  {
-    name: "Pedro",
-    age: 30
-  }
-];
+import { Customer } from '../models/customer';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-customers',
@@ -20,9 +12,12 @@ const CUSTOMERS: Customer[] = [
 })
 export class CustomersComponent implements OnInit {
   displayedColumns: string[] = ['name', 'age'];
-  dataSource = CUSTOMERS;
 
-  constructor() {}
+  customers$: Observable<Customer[]> = new Observable<Customer[]>();
 
-  ngOnInit(): void {}
+  constructor(private customerService: CustomerService) {}
+
+  ngOnInit(): void {
+    this.customers$ = this.customerService.getCustomers();
+  }
 }
