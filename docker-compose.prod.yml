@@ -1,6 +1,6 @@
 version: "3.3"
 services:
-  mongodb_dev:
+  mongodb:
     image: mongo:latest
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -8,7 +8,14 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - mongodb_dev_data:/data/db
+      - mongodb_data:/data/db
+
+  backend:
+    build: ./backend
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongodb
 
 volumes:
-  mongodb_dev_data:
+  mongodb_data:
