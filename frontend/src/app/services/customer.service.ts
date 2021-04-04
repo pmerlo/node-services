@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Customer } from '../models/customer';
 
-const BASE_URL = 'http://localhost:8080/customers/';
+const BASE_URL = 'http://localhost:8080/api/v1/customers/';
 
 @Injectable({
   providedIn: 'root',
