@@ -1,18 +1,18 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const app = require("../app");
-const should = chai.should();
 
+chai.should();
 chai.use(chaiHttp);
 
 const endpoint = "/api/v1/customers";
 
 describe("Customers", () => {
-  before((done) => {
+  beforeEach((done) => {
     chai
       .request(app)
-      .delete(endpoint);
-    done();
+      .delete(endpoint)
+      .end(() => done());
   });
 
   describe("GET /", () => {
