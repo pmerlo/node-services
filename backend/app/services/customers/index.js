@@ -7,79 +7,91 @@ const validateBody = require("../helpers/validate-body");
 const schema = require("./schema.json");
 const collectionName = "customers";
 
-const findAll = function (req, res) {
-  req.collection.find({}, {}).toArray(function (err, result) {
-    if (err) {
-      res.status(400);
-      res.json(err);
-    } else {
+const findAll = (req, res) => {
+  req.collection
+    .find({}, {})
+    .toArray()
+    .then((result) => {
       res.status(200);
       res.json(result);
-    }
-  });
-};
-
-const findOne = function (req, res) {
-  req.collection.findOne({ _id: req.params.id }, (err, result) => {
-    if (err) {
+    })
+    .catch((err) => {
       res.status(400);
       res.json(err);
-    } else {
+    });
+};
+
+const findOne = (req, res) => {
+  req.collection
+    .findOne({ _id: req.params.id })
+    .then((result) => {
       res.status(200);
       res.json(result);
-    }
-  });
-};
-
-const createOne = function (req, res) {
-  req.collection.insertOne(req.body, {}, (err, result) => {
-    data = {};
-    if (err) {
+    })
+    .catch((err) => {
       res.status(400);
       res.json(err);
-    } else {
+    });
+};
+
+const createOne = (req, res) => {
+  req.collection
+    .insertOne(req.body, {})
+    .then((result) => {
       res.status(201);
-      res.json({
-        _id: result.insertedId,
-        ...req.body,
-      });
-    }
-  });
-};
-
-const updateOne = function (req, res) {
-  req.collection.updateOne(
-    { _id: req.params.id },
-    { $set: { ...req.body } },
-    { upsert: false },
-    (err, result) => {
-      if (err) {
-        res.status(400);
-        res.json(err);
-        console.log(err);
-      } else {
-        res.status(200);
-        res.json({
-          matchedCount: result.matchedCount,
-          modifiedCount: result.modifiedCount,
-        });
-      }
-    }
-  );
-};
-
-const deleteOne = function (req, res) {
-  req.collection.deleteOne({ _id: req.params.id }, {}, (err, result) => {
-    if (err) {
+      res.json({ _id: result.insertedId, ...req.body });
+    })
+    .catch((err) => {
       res.status(400);
       res.json(err);
-    } else {
+    });
+};
+
+const updateOne = (req, res) => {
+  req.collection
+    .updateOne(
+      { _id: req.params.id },
+      { $set: { ...req.body } },
+      { upsert: false }
+    )
+    .then((result) => {
       res.status(200);
       res.json({
-        deletedCount: result.deletedCount,
+        matchedCount: result.matchedCount,
+        modifiedCount: result.modifiedCount,
       });
-    }
-  });
+    })
+    .catch((err) => {
+      res.status(400);
+      res.json(err);
+      console.log(err);
+    });
+};
+
+const deleteOne = (req, res) => {
+  req.collection
+    .deleteOne({ _id: req.params.id }, {})
+    .then((result) => {
+      res.status(200);
+      res.json({ deletedCount: result.deletedCount });
+    })
+    .catch((err) => {
+      res.status(400);
+      res.json(err);
+    });
+};
+
+const deleteAll = (req, res) => {
+  req.collection
+    .deleteMany()
+    .then((result) => {
+      res.status(200);
+      res.json({ deletedCount: result.deletedCount });
+    })
+    .catch((err) => {
+      res.status(400);
+      res.json(err);
+    });
 };
 
 module.exports = function (app) {
@@ -92,14 +104,11 @@ module.exports = function (app) {
   });
 
   router.get("/", findAll);
-
   router.post("/", [validateBody(schema), createOne]);
-
   router.get("/:id", [parseObjectId(), findOne]);
-
   router.put("/:id", [parseObjectId(), validateBody(schema), updateOne]);
-
   router.delete("/:id", [parseObjectId(), deleteOne]);
+  router.delete("/", deleteAll);
 
   return router;
 };
