@@ -3,6 +3,6 @@
   "required": ["name", "age"],
   "properties": {
     "name": { "type": "string" },
-    "age": { "type": "string", "pattern": "\\d" }
+    "age": { "type": "number" }
   }
 }

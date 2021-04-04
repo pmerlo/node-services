@@ -18,3 +18,5 @@ services(app);
 app.listen(app.config.port, () =>
   console.log(`Listening on port ${app.config.port}`)
 );
+
+module.exports = app;
